@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Episode from './pages/Episode'
+import CharacterPage from './pages/CharacterPage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/:episode" element={<Episode />} />
+        <Route path="/character/:name" element={<CharacterPage />} />
+        <Route path="*" element={<App />} />
+      </Routes>  
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
