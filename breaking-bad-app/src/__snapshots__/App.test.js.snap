@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should take a snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="flex flex-col"
+  >
+    <h1
+      class="w-fit text-6xl self-center border-b-2 m-8"
+      data-testid="title"
+    >
+      Breaking bad episodes
+    </h1>
+  </div>
+</DocumentFragment>
+`;
