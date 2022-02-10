@@ -1,13 +1,11 @@
 import React from 'react';
 import Season from './components/Season';
+import axios from 'axios';
 
 const baseUrl = 'https://www.breakingbadapi.com/api/';
+
 export async function fetchEpisodes() {
-    return fetch(`${baseUrl}episodes`)
-            .then((res) => {
-              if (res.ok) return res.json();
-              return `Promise reject, res status: ${res.status}`;
-            })
+    return await axios.get(`${baseUrl}episodes`)
 }
 
 function App() {
@@ -28,22 +26,24 @@ function App() {
 
   React.useEffect(() => { // once the title in the layout is set fetch episodes data from the BB API
     fetchEpisodes()       
-      .then((res) => {  // after the data fetched we extract only BB episodes from the received json file  
-        const breakingBadEpisodes = res.filter(ep => {
+      .then((res) => {  // after the data fetched we extract only BB episodes from the received json file 
+        if (res) {
+          const breakingBadEpisodes = res.data.filter(ep => {
           return ep.series === "Breaking Bad";
         });
         localStorage.setItem('breakingBadEpisodes', JSON.stringify(breakingBadEpisodes)); // to avoid unnecessary api requests set the sorted episodes 
-        sortEpisodesBySeasons(breakingBadEpisodes);                                       // in localStorage for future use
+        sortEpisodesBySeasons(breakingBadEpisodes);// in localStorage for future us
+        }
       })           
       .catch(err => console.log(err));
   }, []);
 
   return (
     <div className="flex flex-col">
-      <h1 className="w-fit text-6xl self-center border-b-2 m-8">Breaking bad episodes</h1>
+      <h1 data-testid="title" className="w-fit text-6xl self-center border-b-2 m-8">Breaking bad episodes</h1>
       {seasons.map((season, index) => { // reusable construction for any amount of seasons;
-        return (                        // use 'Math.random().toString(36).substr(2, 9)' for key to avoid react 'unique-key' error
-            <div className="border-b-8" key={index}>
+        return (                        
+            <div data-testid="episodes-container" className="border-b-8" key={index}>
               <h1 className="ml-20 text-3xl text-red-600">Season {index+1}</h1>
               <Season season={season}/>
             </div>  
